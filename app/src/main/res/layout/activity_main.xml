@@ -10,16 +10,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="helloworld.example.com.ijkplayer.MainActivity">
 
-    <tv.danmaku.ijk.media.widget.media.IjkVideoView
-        android:id="@+id/ijvideo"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp">
-    </tv.danmaku.ijk.media.widget.media.IjkVideoView>
 
-    <!--<com.dl7.player.media.IjkPlayerView-->
-        <!--android:id="@+id/player_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="200dp"/>-->
+        <tv.danmaku.ijk.media.widget.media.IjkVideoView
+            android:id="@+id/ijvideo"
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+        </tv.danmaku.ijk.media.widget.media.IjkVideoView>
+
+        <ImageView
+            android:id="@+id/bofang"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bofang"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
 
 
 </RelativeLayout>
