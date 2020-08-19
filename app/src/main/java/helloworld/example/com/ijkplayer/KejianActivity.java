@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,16 +69,30 @@ public class KejianActivity extends AppCompatActivity {
                                 imageUri = FileProvider.getUriForFile(KejianActivity.this, "com.llk.study.activity.PhotoActivity", outputImage);
                             } else {
                                 imageUri = Uri.fromFile(outputImage);
+
                             }
                             //启动相机程序
                             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                             startActivityForResult(intent,TAKE_PHOTO);
+
                         }else
                         {
 
                             Toast.makeText(KejianActivity.this, "没有储存卡",Toast.LENGTH_LONG).show();
                         }
+
+                        // 激活系统的照相机进行录像
+                        Intent intent = new Intent();
+                        intent.setAction("android.media.action.VIDEO_CAPTURE");
+                        intent.addCategory("android.intent.category.DEFAULT");
+
+                        // 保存录像到指定的路径
+                        File file = new File("/sdcard/video.3pg");
+                        Uri uri = Uri.fromFile(file);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+                        startActivityForResult(intent, 0);
                     }
 
                     @Override
@@ -105,6 +120,21 @@ public class KejianActivity extends AppCompatActivity {
     }
 
     /**
+     250      * 打开截图的界面
+     251      * @param uri
+     252      */
+     private void gotoClipActivity(Uri uri){
+         if(uri == null){
+             return;
+         }
+         Intent intent = new Intent(this,ClipImageActivity.class);
+         intent.putExtra("type",1);
+         intent.setData(uri);
+         //startActivityForResult(intent,REQUEST_CROP_PHOTO);
+     }
+
+
+    /**
      * 打开相册的方法
      * */
     private void openAlbum() {
@@ -122,6 +152,9 @@ public class KejianActivity extends AppCompatActivity {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         imageView.setImageBitmap(bitmap);
+                        Log.e("bitmap",bitmap.toString());
+                        Log.e("imageUrl",imageUri.toString());
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
